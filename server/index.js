@@ -21,10 +21,16 @@ const path = require('path');
 
 const app = express();
 
-// Connect to database
-connectDB();
-
 // Middleware
+app.use(async (req, res, next) => {
+    try {
+        await connectDB();
+        next();
+    } catch (error) {
+        next(error);
+    }
+});
+
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
