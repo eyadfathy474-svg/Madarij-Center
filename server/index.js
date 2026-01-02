@@ -66,8 +66,18 @@ if (process.env.NODE_ENV === 'production' && !process.env.VERCEL) {
 
 // Error handling middleware
 app.use((err, req, res, next) => {
-    console.error(err.stack);
-    res.status(500).json({ message: 'حدث خطأ في الخادم' });
+    console.error('SERVER_ERROR:', err);
+
+    const response = {
+        message: 'حدث خطأ في الخادم',
+        error: err.message
+    };
+
+    if (!process.env.MONGO_URI) {
+        response.debug = 'MONGO_URI is missing in environment variables';
+    }
+
+    res.status(500).json(response);
 });
 
 // 404 handler
