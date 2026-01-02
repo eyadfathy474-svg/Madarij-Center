@@ -4,7 +4,9 @@
     "description": "مركز مدارج لتعليم القرآن الكريم - Unified Deployment",
     "main": "server/index.js",
     "scripts": {
-        "install:all": "npm install && cd client && npm install && cd ../server && npm install",
+        "postinstall": "npm run install:all",
+        "install:all": "cd client && npm install && cd ../server && npm install",
+        "build": "npm run build:client",
         "build:client": "cd client && npm run build",
         "build:all": "npm run build:client",
         "start": "cd server && NODE_ENV=production node index.js",
