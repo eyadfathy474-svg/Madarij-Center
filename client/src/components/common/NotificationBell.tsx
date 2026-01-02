@@ -10,11 +10,11 @@ const NotificationBell = () => {
     const [isOpen, setIsOpen] = useState(false);
 
     useEffect(() => {
-        dispatch(fetchNotifications(false));
+        dispatch(fetchNotifications());
 
         // Poll for new notifications every 30 seconds
         const interval = setInterval(() => {
-            dispatch(fetchNotifications(false));
+            dispatch(fetchNotifications());
         }, 30000);
 
         return () => clearInterval(interval);

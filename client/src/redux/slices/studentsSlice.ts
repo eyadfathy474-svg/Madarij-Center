@@ -2,7 +2,7 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { API_BASE_URL } from '../../api/config';
-import type { Student, Guardian } from '../../types';
+import type { Student } from '../../types';
 import type { RootState } from '../store';
 
 interface StudentsState {

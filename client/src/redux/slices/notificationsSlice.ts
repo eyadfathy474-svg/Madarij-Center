@@ -64,6 +64,21 @@ export const markAsRead = createAsyncThunk(
     }
 );
 
+// Mark all notifications as read
+export const markAllAsRead = createAsyncThunk(
+    'notifications/markAllAsRead',
+    async (_, { rejectWithValue, getState }) => {
+        try {
+            const token = (getState() as RootState).auth.token;
+            const config = { headers: { Authorization: `Bearer ${token}` } };
+            await axios.put(`${API_BASE_URL}/api/notifications/read-all`, {}, config);
+            return true;
+        } catch (error: any) {
+            return rejectWithValue(error.response?.data?.message || 'فشل تحديث حالة الإشعارات');
+        }
+    }
+);
+
 const notificationsSlice = createSlice({
     name: 'notifications',
     initialState,
@@ -98,6 +113,13 @@ const notificationsSlice = createSlice({
                     notification.isRead = true;
                     state.unreadCount = Math.max(0, state.unreadCount - 1);
                 }
+            })
+            // Mark all as read
+            .addCase(markAllAsRead.fulfilled, (state) => {
+                state.notifications.forEach(n => {
+                    n.isRead = true;
+                });
+                state.unreadCount = 0;
             });
     },
 });
