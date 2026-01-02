@@ -48,8 +48,8 @@ app.get('/api/health', (req, res) => {
     res.json({ status: 'ok', message: 'مركز مدارج API يعمل بنجاح' });
 });
 
-// Serve frontend in production
-if (process.env.NODE_ENV === 'production') {
+// Serve frontend in production (Only if not on Vercel as Vercel handles this via vercel.json)
+if (process.env.NODE_ENV === 'production' && !process.env.VERCEL) {
     // Set static folder
     app.use(express.static(path.join(__dirname, '../client/dist')));
 
